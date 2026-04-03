@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MyController extends Controller
+
+class MainController extends Controller
 {
-    public function index() {
-        return 'This is a page';
+    public function index(){
+        return view('main');
     }
 }
