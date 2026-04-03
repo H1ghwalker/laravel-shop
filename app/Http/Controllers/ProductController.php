@@ -12,7 +12,10 @@ use App\Models\ProductTag;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::all();
+        $product = Product::find(1);
+        $category = Category::find(1);
+        $tag = Tag::find(2);
+        dd($product->tags);
 
         return view('product.index', compact('products'));
     }

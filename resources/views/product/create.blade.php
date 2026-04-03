@@ -42,9 +42,8 @@
                 <label for="category">Category</label>
                 <select class="form-select" aria-label="Default select example" name="category_id">
                     @foreach ($categories as $category)
-                        <option
-                            {{ old('category_id') == $category->id ? 'selected' : '' }} 
-                            value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option {{ old('category_id') == $category->id ? 'selected' : '' }} value="{{ $category->id }}">
+                            {{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
