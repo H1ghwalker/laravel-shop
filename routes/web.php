@@ -2,22 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\MainController;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Product\IndexController;
+use App\Http\Controllers\Product\CreateController;
+use App\Http\Controllers\Product\StoreController;
+use App\Http\Controllers\Product\ShowController;
+use App\Http\Controllers\Product\EditController;
+use App\Http\Controllers\Product\UpdateController;
+use App\Http\Controllers\Product\DestroyController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/products', [ProductController::class, 'index'])->name('product.index');
-Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('/products', [ProductController::class, 'store'])->name('product.store');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
-Route::patch('/products/{product}', [ProductController::class, 'update'])->name('product.update');
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::group([], function() {
+    Route::get('/products', IndexController::class)->name('product.index');
+    Route::get('/products/create', CreateController::class)->name('product.create');
+    Route::post('/products', StoreController::class)->name('product.store');
+    Route::get('/products/{product}', ShowController::class)->name('product.show');
+    Route::get('/products/{product}/edit', EditController::class)->name('product.edit');
+    Route::patch('/products/{product}', UpdateController::class)->name('product.update');
+    Route::delete('/products/{product}', DestroyController::class)->name('product.destroy');
+});
+
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
@@ -27,16 +35,11 @@ Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->
 Route::patch('/categories/{category}', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-Route::get('/products/update', [ProductController::class, 'update']);
+Route::get('/tags', [TagController::class, 'index'])->name('tag.index');
+Route::get('/tags/create', [TagController::class, 'create'])->name('tag.create');
+Route::post('/tags', [TagController::class, 'store'])->name('tag.store');
+Route::get('/tags/{tag}', [TagController::class, 'show'])->name('tag.show');
+Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tag.edit');
+Route::patch('/tags/{tag}', [TagController::class, 'update'])->name('tag.update');
+Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tag.destroy');
 
-Route::get('/products/delete', [ProductController::class, 'delete']);
-
-Route::get('/products/first_or_create', [ProductController::class, 'firstOrCreate']);
-
-Route::get('/products/update_or_create', [ProductController::class, 'updateOrCreate']);
-
-Route::get('/main', [MainController::class, 'index']);
-
-Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-
-Route::get('/contacts', [ContactController::class, 'index'])->name('contact.index');
