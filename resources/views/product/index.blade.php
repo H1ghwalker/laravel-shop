@@ -8,5 +8,8 @@
                     href="{{ route('product.show', $product->id) }}">{{ $product->id }}. {{ $product->name }}</a>
             </div>
         @endforeach
+        <div class="mt-3">
+            {{ $products->withQueryString()->links() }}
+        </div>
     </div>
 @endsection

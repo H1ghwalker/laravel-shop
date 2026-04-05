@@ -2,28 +2,18 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Product\BaseController;
 use Illuminate\Http\Request;
+use App\Http\Requests\Product\StoreRequest;
+use App\Services\Product\ProductService;
 
-class StoreController extends Controller
+
+class StoreController extends BaseController
 {
-    public function __invoke(Product $product) {
-        $data = request()->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
-            'category_id' => 'nullable|integer|exists:categories,id',
-            'tags' => '',
-        ]);
+    public function __invoke(StoreRequest $request) {
+        $data = $request->validated();
 
-        $tags = $data['tags'];
-        unset($data['tags']);
-
-        $product = Product::create($data);
-
-        $product->tags()->attach($tags);
+        $this->service->store($data);
 
         return redirect()->route('product.index');
     }
