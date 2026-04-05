@@ -11,10 +11,11 @@ use App\Http\Controllers\Product\UpdateController;
 use App\Http\Controllers\Product\DestroyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\Product\IndexController as AdminProductIndexController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::group([], function() {
     Route::get('/products', IndexController::class)->name('product.index');
@@ -25,6 +26,15 @@ Route::group([], function() {
     Route::patch('/products/{product}', UpdateController::class)->name('product.update');
     Route::delete('/products/{product}', DestroyController::class)->name('product.destroy');
 });
+
+Route::get('/main', [MainController::class, 'index'])->name('main.index');
+
+Route::prefix('admin')->middleware(\App\Http\Middleware\AdminPanelMiddleware::class)->group(function() {
+    Route::prefix('product')->group(function() {
+        Route::get('/', AdminProductIndexController::class)->name('admin.product.index');
+    });
+});
+
 
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
@@ -43,3 +53,7 @@ Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('tag.edit')
 Route::patch('/tags/{tag}', [TagController::class, 'update'])->name('tag.update');
 Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tag.destroy');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
