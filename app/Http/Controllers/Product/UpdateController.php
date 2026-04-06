@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Http\Controllers\Product\BaseController;
 use Illuminate\Http\Request;
+
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Controllers\Product\BaseController;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Product;
 
@@ -13,8 +15,10 @@ class UpdateController extends BaseController
     public function __invoke(UpdateRequest $request, Product $product) {
         $data = $request->validated();
 
-        $this->service->update($product, $data);
+        $product = $this->service->update($product, $data);
 
-        return redirect()->route('product.show', $product->id);
+        return $product instanceof Product ? new ProductResource($product) : $product;
+
+        // return redirect()->route('product.show', $product->id);
     }
 }

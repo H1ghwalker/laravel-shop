@@ -20,7 +20,8 @@ class StoreRequest extends FormRequest
             'image' => 'nullable|string',
             'stock' => 'required|integer|min:0',
             'category_id' => 'nullable|integer|exists:categories,id',
-            'tags' => ''
+            'tags' => '',
+            'tags.*.name' => '',
         ];
     }
 }

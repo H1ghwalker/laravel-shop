@@ -19,6 +19,8 @@ class FilterRequest extends FormRequest
             'image' => 'string',
             'stock' => 'integer|min:0',
             'category_id' => 'integer|exists:categories,id',
+            'page' => '',
+            'per_page' => '',
             'tags' => ''
         ];
     }
